@@ -1,0 +1,67 @@
+---
+moreauto: true
+inputs:
+  default:
+    container_path: dtiQA_v6.0.0.simg
+  xnat:
+    scans:
+      - scan1:
+        types: DTI,WIP_HARDI_60_2_5iso
+        resources:
+          - resource: NIFTI
+            fmatch: '*.nii.gz'
+            fcount: 1
+            fdest: DTI.nii.gz
+            ftype: FILE
+          - resource: BVAL
+            fmatch: '*'
+            fcount: 1
+            fdest: DTI.bval
+            ftype: FILE
+          - resource: BVEC
+            fmatch: '*'
+            fcount: 1
+            fdest: DTI.bvec
+            ftype: FILE
+outputs:
+  - path: CHISQUARED
+    type: DIR
+    resource: CHISQUARED
+  - path: EDDY
+    type: DIR
+    resource: EDDY
+  - path: PDF/*.pdf
+    type: FILE
+    resource: PDF
+  - path: PREPROCESSED
+    type: DIR
+    resource: PREPROCESSED
+  - path: RESTORE
+    type: DIR
+    resource: RESTORE
+  - path: SCANS
+    type: DIR
+    resource: SCANS
+  - path: SIGMA
+    type: DIR
+    resource: SIGMA
+  - path: STATS_MASK
+    type: DIR
+    resource: STATS_MASK
+command: >-
+  echo -e \"dwmri_info_base_path = /INPUTS/DTI\ndwmri_info_pe_dir = A\ndwmri_info_scan_descrip = scan\nbet_params = -f 0.3 -R\nADC_fix = true\nzero_bval_thresh = 50\nprenormalize = true\nuse_all_b0s_topup = false\ntopup_params = --subsamp=1,1,1,1,1,1,1,1,1 --miter=10,10,10,10,10,20,20,30,30 --lambda=0.00033,0.000067,0.0000067,0.000001,0.00000033,0.000000033,0.0000000033,0.000000000033,0.00000000000067\neddy_name = eddy_openmp\nuse_b0s_eddy = false\neddy_params = --repol\nnormalize = true\nsort_scans = true\nOMP_NUM_THREADS = 1\" > $INDIR/dtiQA.conf && 
+  singularity 
+  run -e 
+  --bind $INDIR:/INPUTS
+  --bind $OUTDIR:/OUTPUTS
+  {container_path}
+  --idir /INPUTS
+  --odir /OUTPUTS
+attrs:
+  xsitype: proc:genProcData
+  walltime: '12:00:00'
+  memory: 16G
+  ppn: 1
+  type: scan
+  scan_nb: scan1
+jobtemplate: singularity_job_template.txt

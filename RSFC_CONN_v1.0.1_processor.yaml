@@ -1,0 +1,77 @@
+---
+moreauto: true
+inputs:
+  default:
+    container_path: RSFC_CONN_v1.0.1.simg
+    rep_time: 2
+    slice_order: 4
+  xnat:
+    scans:
+      - scan1:
+        types: T1
+        resources:
+          - resource: NIFTI
+            varname: anat
+            ftype: FILE
+            fdest: ANAT.nii.gz
+            fmatch: '*.nii.gz'
+      - scan2:
+        types: fMRI_Resting
+        resources:
+          - resource: NIFTI
+            varname: fmri
+            ftype: FILE
+            fmatch: '*.nii.gz'
+            fdest: FMRI.nii.gz
+outputs:
+  - path: OUT/conn_project.tgz
+    type: FILE
+    resource: CONN_DATA
+  - path: OUT/conn_project.mat
+    type: FILE
+    resource: CONN_MAT
+  - path: OUT/'*.pdf'
+    type: FILE
+    resource: PDF
+  - path: OUT/PREPROC
+    type: DIR
+    resource: PREPROC
+  - path: OUT/stats.txt
+    type: FILE
+    resource: STATS
+  - path: OUT/run1.sh
+    type: FILE
+    resource: SCRIPT
+  - path: OUT/script1.m
+    type: FILE
+    resource: SCRIPT
+  - path: OUT/SCRIPT/script.py
+    type: FILE
+    resource: SCRIPT
+  - path: OUT/run2.sh
+    type: FILE
+    resource: SCRIPT
+  - path: OUT/script2.m
+    type: FILE
+    resource: SCRIPT
+command: >-
+  singularity 
+  run
+  --bind $INDIR:/INPUTS
+  --bind $OUTDIR:/OUTPUTS
+  {container_path}
+  --skipfinish
+  --anat_nifti /INPUTS/ANAT.nii.gz
+  --fmri_nifti /INPUTS/FMRI.nii.gz
+  --rep_time {rep_time}
+  --slice_order {slice_order}
+  -d /OUTPUTS/OUT
+  -a {assessor}
+  --src_path /opt/src
+attrs:
+  xsitype: proc:genProcData
+  walltime: 02:00:00
+  memory: 8192
+  ppn: 1
+  type: session
+jobtemplate: singularity_job_template.txt

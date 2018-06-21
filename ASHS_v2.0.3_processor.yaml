@@ -1,0 +1,125 @@
+---
+moreauto: true
+procname: ASHS
+inputs:
+  default:
+    container_path: ASHS_v2.0.3.simg
+    atlas_path: /scratch/boydb1/ashs_atlas_upennpmc_20161128
+  xnat:
+    scans:
+      - scan1:
+        types: T1,MPRAGE
+        resources:
+          - resource: DICOM
+            varname: t1_dir
+            ftype: DIRJ
+            fdest: T1_DICOM
+      - scan2:
+        types: T2_HPC,ADNI3_HighResHippo
+        resources:
+          - resource: DICOM
+            varname: t2_dir
+            ftype: DIRJ
+            fdest: T2_DICOM
+#      - scan1:
+#        types: T1,MPRAGE
+#        resources:
+#          - resource: NIFTI
+#            varname: t1_nifti
+#            ftype: FILE
+#            fdest: T1.nii.gz
+#            fmatch: '*.nii.gz'
+#      - scan2:
+#        types: T2_HPC
+#        resources:
+#          - resource: NIFTI
+#            varname: t2_nifti
+#            ftype: FILE
+#            fdest: T2.nii.gz
+#            fmatch: '*.nii.gz'
+#      - scan1:
+#        types: T1,MPRAGE
+#        resources:
+#          - resource: NIFTI
+#            varname: t1_nifti
+#            ftype: FILE
+#            fdest: T1.nii.gz
+#            fmatch: '*.nii.gz'
+#      - scan2:
+#        types: T2_HPC
+#        resources:
+#          - resource: NIFTI
+#            varname: t2_nifti
+#            ftype: FILE
+#            fdest: T2.nii.gz
+#            fmatch: '*.nii.gz'
+outputs:
+  -
+    path: OUT/DATA
+    type: DIR
+    resource: DATA
+  -
+    path: OUT/'*.pdf'
+    type: FILE
+    resource: PDF
+  -
+    path: OUT/SCRIPT
+    type: DIR
+    resource: SCRIPT
+  -
+    path: OUT/STATS
+    type: DIR
+    resource: STATS
+command: >-
+  singularity 
+  run
+  --contain
+  --bind $INDIR:/INPUTS
+  --bind $OUTDIR:/OUTPUTS
+  --bind {atlas_path}:/opt/atlas
+  {container_path}
+  --skipfinish
+  --t1_dir /INPUTS/{t1_dir}
+  --t2_dir /INPUTS/{t2_dir}
+  --atlas_path /opt/atlas
+  --ashs_path /opt/ashs-1.0.0
+  --dcm2nii_path /opt/src/dcm2nii
+  -d /OUTPUTS/OUT
+  -a {assessor}
+  --src_path /opt/src
+#command: >-
+#  singularity 
+#  run
+#  --contain
+#   --bind $INDIR:/INPUTS
+#  --bind $OUTDIR:/OUTPUTS
+#  --home $PWD
+#  -W $PWD
+#  --bind {atlas_path}:/opt/atlas
+#  {container_path}
+#  {spider_path} --skipfinish
+#  --t1_nifti /INPUTS/{t1_nifti}
+#  --t2_nifti /INPUTS/{t2_nifti}
+#  --atlas_path /opt/atlas
+#  --ashs_path /opt/ashs-1.0.0
+#  -d /OUTPUTS/OUT
+#  -a {assessor}
+#  --src_path /opt/src
+#command: >-
+#docker run --contain --home $PWD -W $PWD 
+#--bind {scratch_path}:/scratch 
+#--bind {atlas_path}:/opt/atlas 
+#{sing_image} 
+#{spider_path} --skipfinish
+#--t1_dir {t1_dir} 
+#--t2_dir {t2_dir} 
+#--atlas_path /opt/atlas 
+#--ashs_path /opt/ashs-fastashs 
+#--dcm2nii_path /opt/src/dcm2nii
+attrs:
+  xsitype: proc:genProcData
+  walltime: "06:00:00"
+  memory: 8192
+  ppn: 1
+  type: session
+jobtemplate: singularity_job_template.txt

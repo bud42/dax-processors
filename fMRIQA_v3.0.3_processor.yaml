@@ -1,0 +1,59 @@
+---
+moreauto: true
+inputs:
+  default:
+    container_path: /home/boydb1/dax-pipelines/fMRIQA/v3.0.3/Spider_fMRIQA_v3_0_3.py
+    spm12_path: /scratch/boydb1/apps/spm12_r6224
+    src: /home/boydb1/dax-pipelines/fMRIQA/v3.0.3/src
+    imagemagick_path: /usr/bin
+  xnat:
+    scans:
+      - scan1:
+        types: fMRI_*
+        resources:
+          - resource: NIFTI
+            fmatch: '*'
+            fcount: 1
+            fdest: FMRI.nii.gz
+            ftype: FILE
+    attrs:
+      - varname: project
+        object: session
+        attr: project
+      - varname: subject
+        object: session
+        attr: subject_label
+      - varname: session
+        object: session
+        attr: label
+      - varname: scan
+        object: scan
+        attr: ID
+outputs:
+  - path: OUT/'*.pdf'
+    type: FILE
+    resource: PDF
+  - path: OUT/'*.txt'
+    type: FILE
+    resource: STATS
+command: >-
+  python {container_path}
+  -d $OUTDIR/OUT
+  -a {assessor}
+  --proj_label {project}
+  --subj_label {subject}
+  --sess_label {session}
+  --scan_label {scan}
+  --fmri_file $INDIR/FMRI.nii.gz
+  --spm12_path {spm12_path}
+  --code_path {src}
+  --imagemagick_path {imagemagick_path}
+  --skipfinish
+attrs:
+  xsitype: proc:genProcData
+  walltime: '02:00:00'
+  memory: 10240
+  ppn: 1
+  type: scan
+  scan_nb: scan1
+jobtemplate: spider_job_template.txt

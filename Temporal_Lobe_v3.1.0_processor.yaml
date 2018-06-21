@@ -1,0 +1,44 @@
+---
+moreauto: true
+inputs:
+  default:
+    container_path: Temporal_Lobe_v3.1.0.img
+  xnat:
+    scans:
+      - scan1:
+        types: T1,MPRAGE
+        resources:
+          - resource: NIFTI
+            fmatch: '*'
+            fcount: 1
+            fdest: T1.nii.gz
+            ftype: FILE
+    assessors:
+      - assr1:
+        proctypes: Multi_Atlas_v2
+        resources:
+          - resource: SEG
+            fmatch: '*.nii.gz'
+            fcount: 1
+            fdest: orig_target_seg.nii.gz
+            ftype: FILE
+outputs:
+  - path: WORKING/PDF/*.pdf
+    type: FILE
+    resource: PDF
+command: >-
+  singularity 
+  run
+  --bind $INDIR:/INPUTS
+  --bind $OUTDIR:/OUTPUTS
+  {container_path}
+  --idir /INPUTS
+  --odir /OUTPUTS
+attrs:
+  xsitype: proc:genProcData
+  walltime: '12:00:00'
+  memory: 8192
+  ppn: 1
+  type: scan
+  scan_nb: scan1
+jobtemplate: singularity_job_template.txt

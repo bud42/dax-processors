@@ -1,0 +1,65 @@
+---
+moreauto: true
+procname: LST
+inputs:
+  default:
+    container_path: LST_v1.1.0.simg
+  xnat:
+    scans:
+      - scan1:
+        types: T1,MPRAGE
+        resources:
+          - resource: NIFTI
+            varname: t1_nifti
+            fmatch: '*'
+            fcount: 1
+            fdest: T1.nii.gz
+            ftype: FILE
+      - scan2:
+        types: FLAIR
+        resources:
+          - resource: NIFTI
+            varname: flair_nifti
+            fmatch: '*'
+            fcount: 1
+            fdest: FLAIR.nii.gz
+            ftype: FILE
+outputs:
+  - path: OUT/LST_stats.txt
+    type: FILE
+    resource: STATS
+  - path: OUT/LST_report.pdf
+    type: FILE
+    resource: PDF
+  - path: OUT/DATA
+    type: DIR
+    resource: DATA
+  - path: OUT/SCRIPT/script.py
+    type: FILE
+    resource: SCRIPT
+  - path: OUT/LST.m
+    type: FILE
+    resource: SCRIPT
+  - path: OUT/run.sh
+    type: FILE
+    resource: SCRIPT
+command: >-
+  singularity
+  run
+  -e
+  -B $INDIR:/INPUTS
+  -B $OUTDIR:/OUTPUTS
+  {container_path}
+  --skipfinish
+  --t1_nifti /INPUTS/{t1_nifti}
+  --flair_nifti /INPUTS/{flair_nifti}
+  -d /OUTPUTS/OUT
+  -a {assessor}
+  --src_path /opt/src/
+attrs:
+  xsitype: proc:genProcData
+  walltime: '01:30:00'
+  memory: 8192
+  ppn: 1
+  type: session
+jobtemplate: singularity_job_template.txt

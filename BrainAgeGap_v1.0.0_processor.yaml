@@ -1,0 +1,77 @@
+---
+moreauto: true
+inputs:
+  default:
+    container_path: BrainAgeGap_v1.0.0.img
+  xnat:
+    scans:
+      - scan1:
+        types: T1,MPRAGE
+        resources:
+          - resource: NIFTI
+            fmatch: '*'
+            fcount: 1
+            fdest: T1.nii.gz
+            ftype: FILE
+    assessors:
+      - assr1:
+        scan_nb:
+        proctypes: Multi_Atlas_v2
+#        needs_qc: False
+        resources:
+          - resource: MNI
+            fmatch: '*.nii.gz'
+            fcount: 1
+            fdest: target_processed.nii.gz
+            ftype: FILE
+          - resource: MNI_SEG
+            fmatch: '*.nii.gz'
+            fcount: 1
+            fdest: target_processed_seg.nii.gz
+            ftype: FILE
+          - resource: VOL_TXT
+            fmatch: '*.txt'
+            fcount: 1
+            fdest: target_processed_label_volumes.txt
+            ftype: FILE
+    attrs:
+      - varname: sex
+        object: subject
+        attr: gender
+      - varname: age
+        object: subject
+        attr: age
+      - varname: tesla
+        object: session
+        attr: fieldStrength
+outputs:
+  - path: report.pdf
+    type: FILE
+    resource: PDF
+  - path: stats.txt
+    type: FILE
+    resource: STATS
+  - path: conv_feats.mat
+    type: FILE
+    resource: MAT
+command: >-
+  singularity 
+  run
+  --bind $INDIR:/INPUTS
+  --bind $OUTDIR:/OUTPUTS
+  {container_path}
+  --idir /INPUTS
+  --odir /OUTPUTS
+  --mdir /opt/src
+  --assr  {assessor}
+  --sex {sex}
+  --age {age}
+  --tesla {tesla}
+attrs:
+  xsitype: proc:genProcData
+  walltime: 0:30:00
+  memory: 8192
+  ppn: 1
+  type: scan
+  scan_nb: scan1
+jobtemplate: singularity_job_template.txt

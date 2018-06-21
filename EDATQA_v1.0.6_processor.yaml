@@ -1,0 +1,57 @@
+---
+moreauto: true
+inputs:
+  default:
+    container_path: EDATQA_v1.0.6.simg
+    src: /opt/src
+    type_column: Type
+    acc_column: ACC
+    rt_column: RT
+    resp_column: RESP
+  xnat:
+    scans:
+      - scan1:
+        types: fMRI_EmoStroop,fMRI_EDP
+        resources:
+          - resource: EDAT
+            varname: edat
+            fmatch: '*.txt'
+            ftype: FILE
+            fdest: edat.txt
+outputs:
+  - path: OUT/stats.txt
+    type: FILE
+    resource: STATS
+  - path: OUT/edatqa.pdf
+    type: FILE
+    resource: PDF
+  - path: OUT/SCRIPT
+    type: DIR
+    resource: SCRIPT
+command: >-
+  singularity
+  run --contain
+  --bind $INDIR:/INPUTS
+  --bind $OUTDIR:/OUTPUTS
+  {container_path}
+  --skipfinish
+  --edat /INPUTS/edat.txt
+  -d /OUTPUTS/OUT
+  -a {assessor}
+  --src_path /opt/src/
+  --proj_label UNKNOWN
+  --subj_label UNKNOWN
+  --sess_label UNKNOWN
+  --scan_label UNKNOWN
+  --type_column {type_column}
+  --acc_column {acc_column}
+  --rt_column {rt_column}
+  --resp_column {resp_column}
+attrs:
+  xsitype: proc:genProcData
+  walltime: 00:15:00
+  memory: 4096
+  ppn: 1
+  type: scan
+  scan_nb: scan1
+jobtemplate: singularity_job_template.txt

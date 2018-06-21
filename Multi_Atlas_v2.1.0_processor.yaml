@@ -1,0 +1,62 @@
+---
+moreauto: true
+procname: Multi_Atlas
+inputs:
+  default:
+    container_path: Multi_Atlas_v2.1.0.simg
+  xnat:
+    scans:
+      - scan1:
+        types: T1,MPRAGE
+        resources:
+          - resource: NIFTI
+            varname: t1_file
+            fmatch: '*'
+            fcount: 1
+            fdest: T1.nii.gz
+            ftype: FILE
+outputs:
+  - path:  T1/target_processed.nii.gz
+    type: FILE
+    resource: MNI
+  - path: T1/target_processed_seg.nii.gz
+    type: FILE
+    resource: MNI_SEG
+  - path: T1/orig_target_seg.nii.gz
+    type: FILE
+    resource: SEG
+  - path: T1/target_processed_label_volumes.txt
+    type: FILE
+    resource: VOL_TXT
+  - path: T1/target_processed_output.zip
+    type: FILE
+    resource: OUT_ZIP
+  - path: T1/TICV_output/orig_target_seg_ticv.nii.gz
+    type: FILE
+    resource: TICV
+  - path: T1/TICV_output/orig_target_ticv.nii.gz
+    type: FILE
+    resource: TICV
+  - path: T1/TICV_output/target_processed_seg_ticv.nii.gz
+    type: FILE
+    resource: TICV
+  - path: T1/TICV_output/target_processed_ticv.nii.gz
+    type: FILE
+    resource: TICV
+  - path: T1/target_processed_summary.pdf
+    type: FILE
+    resource: PDF
+command: >-
+  singularity
+  run -e
+  -B $INDIR:/INPUTS
+  -B $OUTDIR:/OUTPUTS
+  {container_path}
+attrs:
+  xsitype: proc:genProcData
+  walltime: "72:00:00"
+  memory: 16384
+  ppn: 1
+  type: scan
+  scan_nb: scan1
+jobtemplate: singularity_job_template.txt
