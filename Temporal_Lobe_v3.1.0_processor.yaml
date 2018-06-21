@@ -2,7 +2,7 @@
 moreauto: true
 inputs:
   default:
-    container_path: Temporal_Lobe_v3.1.0.img
+    container_path: Temporal_Lobe_v3.1.0.simg
   xnat:
     scans:
       - scan1:
