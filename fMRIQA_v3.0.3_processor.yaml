@@ -3,7 +3,7 @@ moreauto: true
 inputs:
   default:
     container_path: /home/boydb1/dax-pipelines/fMRIQA/v3.0.3/Spider_fMRIQA_v3_0_3.py
-    spm12_path: /scratch/boydb1/apps/spm12_r6224
+    spm12_path: /scratch/boydb1/apps/spm12
     src: /home/boydb1/dax-pipelines/fMRIQA/v3.0.3/src
     imagemagick_path: /usr/bin
   xnat:
