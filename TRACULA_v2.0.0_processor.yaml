@@ -1,0 +1,80 @@
+---
+moreauto: true
+inputs:
+  default:
+    container_path: TRACULA_v2.0.0.simg
+    container_source: shub://bud42/TRACULA:v2.0.0
+  xnat:
+    scans:
+      - scan1:
+        types: DTI,WIP_HARDI_60_2_5iso
+        resources:
+          - resource: NIFTI
+            fmatch: '*'
+            fcount: 1
+            fdest: dti.nii.gz
+            ftype: FILE
+          - resource: BVAL
+            fmatch: '*'
+            fcount: 1
+            fdest: bval.txt
+            ftype: FILE
+          - resource: BVEC
+            fmatch: '*'
+            fcount: 1
+            fdest: bvec.txt
+            ftype: FILE
+    assessors:
+      - assr1:
+        proctypes: FS6_v1
+        resources:
+          - resource: DATA
+            ftype: DIR
+    attrs:
+      - varname: project
+        object: session
+        attr: project
+      - varname: session
+        object: session
+        attr: label
+outputs:
+  - path: 'TRACULA*report.pdf'
+    type: FILE
+    resource: PDF
+  - path: '*stats.txt'
+    type: FILE
+    resource: STATS
+  - path: 'trac*.sh'
+    type: FILE
+    resource: STATS
+  - path: 'TRACULA/*/*.zip'
+    type: FILE
+    resource: DATA
+command: >-
+  singularity 
+  run
+  --bind $INDIR:/INPUTS
+  --bind $OUTDIR:/OUTPUTS
+  {container_path}
+  --idir /INPUTS
+  --odir /OUTPUTS
+  --assr {assessor}
+  --proj_label {project}
+  --sess_label {session}
+  --fs_path /opt/freesurfer
+  --fsl_path /usr/share/fsl/5.0
+  --fs_data /INPUTS
+  --fs_label UNKNOWN
+  --fs_subj {session}
+  --dti_nifti /INPUTS/dti.nii.gz
+  --bval_txt /INPUTS/bval.txt
+  --bvec_txt /INPUTS/bvec.txt
+  --src_path /opt/src
+  --skipfinish
+attrs:
+  xsitype: proc:genProcData
+  walltime: 72:00:00
+  memory: 8192
+  ppn: 1
+  type: session
+jobtemplate: singularity_job_template.txt
