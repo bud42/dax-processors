@@ -59,7 +59,7 @@ command: >-
   --bind $OUTDIR:/OUTPUTS
   {container_path}
   -d /OUTPUTS/OUT
-  --assr {assessor}
+  -a {assessor}
   --proj_label {project}
   --sess_label {session}
   --fs_path /opt/freesurfer
