@@ -30,6 +30,7 @@ inputs:
         resources:
           - resource: DATA
             ftype: DIR
+            fdest: DATA
     attrs:
       - varname: project
         object: session
