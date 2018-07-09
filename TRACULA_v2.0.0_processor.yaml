@@ -39,16 +39,16 @@ inputs:
         object: session
         attr: label
 outputs:
-  - path: 'TRACULA*report.pdf'
+  - path: 'OUT/TRACULA*report.pdf'
     type: FILE
     resource: PDF
-  - path: '*stats.txt'
+  - path: 'OUT/*stats.txt'
     type: FILE
     resource: STATS
-  - path: 'trac*.sh'
+  - path: 'OUT/trac*.sh'
     type: FILE
     resource: STATS
-  - path: 'TRACULA/*/*.zip'
+  - path: 'OUT/TRACULA/*/*.zip'
     type: FILE
     resource: DATA
 command: >-
