@@ -54,6 +54,7 @@ outputs:
 command: >-
   singularity 
   run
+  --bind $HOME/freesurfer_license.txt:/opt/license.txt
   --bind $INDIR:/INPUTS
   --bind $OUTDIR:/OUTPUTS
   {container_path}
@@ -63,8 +64,8 @@ command: >-
   --sess_label {session}
   --fs_path /opt/freesurfer
   --fsl_path /usr/share/fsl/5.0
-  --fs_data /INPUTS
-  --fs_label UNKNOWN
+  --fs_data /INPUTS/FS_SUBJ_DATA
+  --fs_label {session}
   --fs_subj {session}
   --dti_nifti /INPUTS/dti.nii.gz
   --bval_txt /INPUTS/bval.txt
