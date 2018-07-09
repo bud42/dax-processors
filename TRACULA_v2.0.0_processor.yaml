@@ -56,8 +56,7 @@ command: >-
   --bind $INDIR:/INPUTS
   --bind $OUTDIR:/OUTPUTS
   {container_path}
-  --idir /INPUTS
-  --odir /OUTPUTS
+  -d /OUTPUTS/OUT
   --assr {assessor}
   --proj_label {project}
   --sess_label {session}
