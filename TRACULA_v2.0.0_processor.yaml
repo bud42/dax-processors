@@ -72,7 +72,7 @@ command: >-
   --skipfinish
 attrs:
   xsitype: proc:genProcData
-  walltime: 72:00:00
+  walltime: '72:00:00'
   memory: 8192
   ppn: 1
   type: session
