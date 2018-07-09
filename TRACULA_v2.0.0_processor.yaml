@@ -7,7 +7,7 @@ inputs:
   xnat:
     scans:
       - scan1:
-        types: DTI,WIP_HARDI_60_2_5iso
+        types: DTI,WIP_HARDI_60_2_5iso,DIF
         resources:
           - resource: NIFTI
             fmatch: '*'
