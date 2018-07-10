@@ -51,6 +51,12 @@ outputs:
   - path: 'OUT/TRACULA/*/*.zip'
     type: FILE
     resource: DATA
+  - path: 'OUT/TRACULA/*/*.txt'
+    type: FILE
+    resource: DATA
+  - path: 'OUT/TRACULA/*/*.sh'
+    type: FILE
+    resource: DATA
 command: >-
   singularity 
   run

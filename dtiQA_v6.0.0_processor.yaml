@@ -3,6 +3,7 @@ moreauto: true
 inputs:
   default:
     container_path: dtiQA_v6.0.0.simg
+    container_source: shub://vuiiscci/dtiQA_app:6.0.0
   xnat:
     scans:
       - scan1:

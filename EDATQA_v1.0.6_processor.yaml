@@ -3,7 +3,7 @@ moreauto: true
 inputs:
   default:
     container_path: EDATQA_v1.0.6.simg
-    src: /opt/src
+    container_source: shub://bud42/EDATQA:v1.0.6
     type_column: Type
     acc_column: ACC
     rt_column: RT
@@ -18,6 +18,19 @@ inputs:
             fmatch: '*.txt'
             ftype: FILE
             fdest: edat.txt
+    attrs:
+      - varname: project
+        object: session
+        attr: project
+      - varname: subject
+        object: session
+        attr: subject_label
+      - varname: session
+        object: session
+        attr: label
+      - varname: scan
+        object: scan
+        attr: ID
 outputs:
   - path: OUT/stats.txt
     type: FILE
@@ -39,10 +52,10 @@ command: >-
   -d /OUTPUTS/OUT
   -a {assessor}
   --src_path /opt/src/
-  --proj_label UNKNOWN
-  --subj_label UNKNOWN
-  --sess_label UNKNOWN
-  --scan_label UNKNOWN
+  --proj_label {project}
+  --subj_label {subject}
+  --sess_label {session}
+  --scan_label {scan}
   --type_column {type_column}
   --acc_column {acc_column}
   --rt_column {rt_column}

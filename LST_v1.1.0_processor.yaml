@@ -4,6 +4,7 @@ procname: LST
 inputs:
   default:
     container_path: LST_v1.1.0.simg
+    container_source: shub://bud42/LST:v1.1.0
   xnat:
     scans:
       - scan1:

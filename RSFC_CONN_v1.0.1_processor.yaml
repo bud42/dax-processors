@@ -3,6 +3,7 @@ moreauto: true
 inputs:
   default:
     container_path: RSFC_CONN_v1.0.1.simg
+    container_source: shub://bud42/RSFC_CONN:v1.0.1
     rep_time: 2
     slice_order: 4
   xnat:

@@ -3,6 +3,7 @@ moreauto: true
 inputs:
   default:
     container_path: Temporal_Lobe_v3.1.0.simg
+    conatiner_source: shub://vuiiscci/Temporal_Lobe_app:3.1.0
   xnat:
     scans:
       - scan1:

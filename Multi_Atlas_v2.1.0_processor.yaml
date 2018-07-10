@@ -4,6 +4,7 @@ procname: Multi_Atlas
 inputs:
   default:
     container_path: Multi_Atlas_v2.1.0.simg
+    container_source: shub://vuiiscci/Multi_Atlas/2.1.0
   xnat:
     scans:
       - scan1:
