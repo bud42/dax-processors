@@ -51,10 +51,10 @@ outputs:
   - path: 'OUT/TRACULA/*/*.zip'
     type: FILE
     resource: DATA
-  - path: 'OUT/TRACULA/*/*.txt'
+  - path: 'OUT/dmrirc*.txt'
     type: FILE
     resource: DATA
-  - path: 'OUT/TRACULA/*/*.sh'
+  - path: 'OUT/trac*.sh'
     type: FILE
     resource: DATA
 command: >-
