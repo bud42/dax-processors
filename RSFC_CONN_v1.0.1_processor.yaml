@@ -9,7 +9,7 @@ inputs:
   xnat:
     scans:
       - scan1:
-        types: T1
+        types: T1,MPRAGE
         resources:
           - resource: NIFTI
             varname: anat
