@@ -17,7 +17,7 @@ inputs:
             fdest: ANAT.nii.gz
             fmatch: '*.nii.gz'
       - scan2:
-        types: fMRI_Resting
+        types: fMRI_Resting*
         resources:
           - resource: NIFTI
             varname: fmri
