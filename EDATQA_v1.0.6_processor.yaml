@@ -10,7 +10,7 @@ inputs:
     resp_column: RESP
   xnat:
     scans:
-      - scan1:
+      - name: scan_fmri
         types: fMRI_EmoStroop,fMRI_EDP
         resources:
           - resource: EDAT
@@ -65,6 +65,4 @@ attrs:
   walltime: 00:15:00
   memory: 4096
   ppn: 1
-  type: scan
-  scan_nb: scan1
 jobtemplate: singularity_job_template.txt

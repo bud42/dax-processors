@@ -7,8 +7,9 @@ inputs:
     container_source: shub://vuiiscci/Multi_Atlas/2.1.0
   xnat:
     scans:
-      - scan1:
+      - name: scan_t1
         types: T1,MPRAGE
+        needs_qc: True
         resources:
           - resource: NIFTI
             varname: t1_file
@@ -58,6 +59,4 @@ attrs:
   walltime: "72:00:00"
   memory: 16384
   ppn: 1
-  type: scan
-  scan_nb: scan1
 jobtemplate: singularity_job_template.txt

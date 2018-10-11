@@ -7,8 +7,9 @@ inputs:
     container_source: shub://bud42/LST:v1.1.0
   xnat:
     scans:
-      - scan1:
+      - name: scan_t1
         types: T1,MPRAGE
+        needs_qc: True
         resources:
           - resource: NIFTI
             varname: t1_nifti
@@ -16,8 +17,9 @@ inputs:
             fcount: 1
             fdest: T1.nii.gz
             ftype: FILE
-      - scan2:
+      - name: scan_flair
         types: FLAIR
+        needs_qc: True
         resources:
           - resource: NIFTI
             varname: flair_nifti
@@ -62,5 +64,4 @@ attrs:
   walltime: '01:30:00'
   memory: 8192
   ppn: 1
-  type: session
 jobtemplate: singularity_job_template.txt

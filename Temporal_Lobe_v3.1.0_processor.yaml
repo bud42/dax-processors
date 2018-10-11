@@ -6,23 +6,27 @@ inputs:
     conatiner_source: shub://vuiiscci/Temporal_Lobe_app:3.1.0
   xnat:
     scans:
-      - scan1:
+      - name: scan_t1
         types: T1,MPRAGE
+        needs_qc: True
         resources:
           - resource: NIFTI
             fmatch: '*'
             fcount: 1
             fdest: T1.nii.gz
             ftype: FILE
+            varname: t1_nifti
     assessors:
-      - assr1:
+      - name: assr_ma
         proctypes: Multi_Atlas_v2
+        needs_qc: True
         resources:
           - resource: SEG
             fmatch: '*.nii.gz'
             fcount: 1
             fdest: orig_target_seg.nii.gz
             ftype: FILE
+            varname: seg_nifti
 outputs:
   - path: WORKING/PDF/*.pdf
     type: FILE
@@ -40,6 +44,4 @@ attrs:
   walltime: '12:00:00'
   memory: 8192
   ppn: 1
-  type: scan
-  scan_nb: scan1
 jobtemplate: singularity_job_template.txt

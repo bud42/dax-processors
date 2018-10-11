@@ -7,15 +7,17 @@ inputs:
     atlas_path: /scratch/boydb1/ashs_atlas_upennpmc_20161128
   xnat:
     scans:
-      - scan1:
+      - name: scan_t1
         types: T1,MPRAGE
+        needs_qc: True
         resources:
           - resource: DICOM
             varname: t1_dir
             ftype: DIRJ
             fdest: T1_DICOM
-      - scan2:
+      - name: scan_t2
         types: T2_HPC,ADNI3_HighResHippo
+        needs_qc: True
         resources:
           - resource: DICOM
             varname: t2_dir
@@ -56,5 +58,4 @@ attrs:
   walltime: "36:00:00"
   memory: 8192
   ppn: 1
-  type: session
 jobtemplate: singularity_job_template.txt

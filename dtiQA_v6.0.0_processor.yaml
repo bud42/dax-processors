@@ -6,24 +6,28 @@ inputs:
     container_source: shub://vuiiscci/dtiQA_app:6.0.0
   xnat:
     scans:
-      - scan1:
+      - name: scan_dti
         types: DTI,WIP_HARDI_60_2_5iso
+        needs_qc: True
         resources:
           - resource: NIFTI
             fmatch: '*.nii.gz'
             fcount: 1
             fdest: DTI.nii.gz
             ftype: FILE
+            varname: dti_nifti
           - resource: BVAL
             fmatch: '*'
             fcount: 1
             fdest: DTI.bval
             ftype: FILE
+            varname: dti_bval
           - resource: BVEC
             fmatch: '*'
             fcount: 1
             fdest: DTI.bvec
             ftype: FILE
+            varname: dti_bvec
 outputs:
   - path: CHISQUARED
     type: DIR
@@ -63,6 +67,4 @@ attrs:
   walltime: '12:00:00'
   memory: 16G
   ppn: 1
-  type: scan
-  scan_nb: scan1
 jobtemplate: singularity_job_template.txt

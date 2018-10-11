@@ -8,16 +8,18 @@ inputs:
     slice_order: 4
   xnat:
     scans:
-      - scan1:
+      - name: scan_t1
         types: T1,MPRAGE
+        needs_qc: True
         resources:
           - resource: NIFTI
             varname: anat
             ftype: FILE
             fdest: ANAT.nii.gz
             fmatch: '*.nii.gz'
-      - scan2:
-        types: fMRI_Resting*
+      - name: scan_fmri
+        types: fMRI_Resting
+        needs_qc: True
         resources:
           - resource: NIFTI
             varname: fmri
@@ -74,5 +76,4 @@ attrs:
   walltime: 02:00:00
   memory: 8192
   ppn: 1
-  type: session
 jobtemplate: singularity_job_template.txt

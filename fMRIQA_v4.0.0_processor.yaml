@@ -6,31 +6,38 @@ inputs:
     container_source: shub://vuiiscci/FMRIQA_app:4.0.0
   xnat:
     scans:
-      - scan1:
-        types: fMRI_*
+      - name: scan_fmri
+        types: fMRI_Resting,fMRI_EDP,fMRI_MIST,fMRI_Resting_PostTask,fMRI_STMP,fMRI_Flanker,fMRI_NBack
+        needs_qc: True
         resources:
           - resource: NIFTI
             fmatch: '*'
             fcount: 1
             fdest: FMRI.nii.gz
             ftype: FILE
-      - scan2:
+            varname: fmri_nifti
+      - name: scan_t1
         types: T1,MPRAGE
+        select: from(assr_ma/scan_t1)
+        needs_qc: True
         resources:
           - resource: NIFTI
             fmatch: '*'
             fcount: 1
             fdest: T1.nii.gz
             ftype: FILE
+            varname: t1_nifti
     assessors:
-      - assr1:
+      - name: assr_ma
         proctypes: Multi_Atlas_v2
+        needs_qc: True
         resources:
           - resource: SEG
             fmatch: '*.nii.gz'
             fcount: 1
             fdest: orig_target_seg.nii.gz
             ftype: FILE
+            varname: seg_nifti
     attrs:
       - varname: project
         object: session
@@ -44,6 +51,7 @@ inputs:
       - varname: scan
         object: scan
         attr: ID
+        ref: scan_fmri
 outputs:
   - path: '*.pdf'
     type: FILE
@@ -89,6 +97,4 @@ attrs:
   walltime: '04:00:00'
   memory: 8192
   ppn: 1
-  type: scan
-  scan_nb: scan1
 jobtemplate: singularity_job_template.txt

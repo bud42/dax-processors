@@ -6,31 +6,37 @@ inputs:
     container_source: shub://bud42/TRACULA:v2.0.0
   xnat:
     scans:
-      - scan1:
+      - name: scan_dti
         types: DTI,WIP_HARDI_60_2_5iso,DIF
+        needs_qc: True
         resources:
           - resource: NIFTI
             fmatch: '*'
             fcount: 1
             fdest: dti.nii.gz
             ftype: FILE
+            varname: dti_nifti
           - resource: BVAL
             fmatch: '*'
             fcount: 1
             fdest: bval.txt
             ftype: FILE
+            varname: dti_bval
           - resource: BVEC
             fmatch: '*'
             fcount: 1
             fdest: bvec.txt
             ftype: FILE
+            varname: dti_bvec
     assessors:
-      - assr1:
+      - name: assr_fs
         proctypes: FS6_v1
+        needs_qc: True
         resources:
           - resource: DATA
             ftype: DIR
             fdest: FS_SUBJ_DATA
+            varname: fs_dir
     attrs:
       - varname: project
         object: session
@@ -83,5 +89,4 @@ attrs:
   walltime: '72:00:00'
   memory: 8192
   ppn: 1
-  type: session
 jobtemplate: singularity_job_template.txt

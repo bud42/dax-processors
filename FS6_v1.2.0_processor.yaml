@@ -7,8 +7,9 @@ inputs:
     extraflags: ""
   xnat:
     scans:
-      - scan1:
+      - name: scan_t1
         types: T1,MPRAGE
+        needs_qc: True
         resources:
           - resource: NIFTI
             varname: t1_nifti
@@ -46,5 +47,4 @@ attrs:
   walltime: '36:00:00'
   memory: 8192
   ppn: 1
-  type: session
 jobtemplate: singularity_job_template.txt
