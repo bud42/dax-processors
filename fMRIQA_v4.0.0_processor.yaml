@@ -7,7 +7,7 @@ inputs:
   xnat:
     scans:
       - name: scan_fmri
-        types: fMRI_Resting,fMRI_EDP,fMRI_MIST,fMRI_Resting_PostTask,fMRI_STMP,fMRI_Flanker,fMRI_NBack
+        types: fMRI_*
         needs_qc: True
         resources:
           - resource: NIFTI
