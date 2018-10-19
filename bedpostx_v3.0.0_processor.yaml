@@ -1,0 +1,53 @@
+---
+moreauto: true
+proctype: bedpostx_v3
+inputs:
+  default:
+    container_path: bedpostx_v3.0.0.simg
+    container_source: shub://justinblaber/bedpostx_app:1.0.0
+  xnat:
+    assessors:
+      - name: assr_dtiqa
+        proctypes: dtiQA_v6
+        needs_qc: False 
+        resources:
+          - resource: PREPROCESSED
+            ftype: FILE
+            fdest: dwmri.nii.gz
+            filepath: dwmri.nii.gz
+            varname: dti_nifti
+          - resource: PREPROCESSED
+            ftype: FILE
+            fdest: dwmri.bval
+            filepath: dwmri.bval
+            varname: dti_bval
+          - resource: PREPROCESSED
+            ftype: FILE
+            fdest: dwmri.bvec
+            filepath: dwmri.bvec
+            varname: dti_bvec
+          - resource: PREPROCESSED
+            ftype: FILE
+            fdest: mask.nii.gz
+            filepath: mask.nii.gz
+            varname: mask_nifti
+outputs:
+  - path: report.pdf
+    type: FILE
+    resource: PDF
+  - path: stats.txt
+    type: FILE
+    resource: STATS
+command: >-
+  echo -e \"bedpostx_name = bedpostx\nbedpostx_params =\n\" > $INDIR/bedpostx.conf &&  
+  singularity run -e
+  -B $INDIR:/INPUTS
+  -B $OUTDIR:/OUTPUTS
+  {container_path}
+attrs:
+  xsitype: proc:genProcData
+  walltime: '3-00:00:00'
+  memory: 10000
+  ppn: 1
+jobtemplate: job_template.txt
+
