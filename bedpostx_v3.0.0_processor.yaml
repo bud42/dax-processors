@@ -52,5 +52,5 @@ attrs:
   walltime: '3-00:00:00'
   memory: 10000
   ppn: 1
-jobtemplate: job_template.txt
+jobtemplate: singularity_job_template.txt
 
