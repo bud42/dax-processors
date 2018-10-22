@@ -7,7 +7,7 @@ inputs:
   xnat:
     scans:
       - name: scan_dti
-        types: DTI,WIP_HARDI_60_2_5iso
+        types: '*dti_4min*,*HARDI*,DTI,DTI_AP,DTI_40dir*,DTI_56dir*'
         needs_qc: True
         resources:
           - resource: NIFTI
@@ -32,9 +32,6 @@ outputs:
   - path: CHISQUARED
     type: DIR
     resource: CHISQUARED
-  - path: EDDY
-    type: DIR
-    resource: EDDY
   - path: PDF/*.pdf
     type: FILE
     resource: PDF
@@ -44,9 +41,6 @@ outputs:
   - path: RESTORE
     type: DIR
     resource: RESTORE
-  - path: SCANS
-    type: DIR
-    resource: SCANS
   - path: SIGMA
     type: DIR
     resource: SIGMA
