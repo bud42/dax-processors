@@ -32,12 +32,15 @@ inputs:
             filepath: mask.nii.gz
             varname: mask_nifti
 outputs:
-  - path: report.pdf
+  - path: BEDPOSTX_DATA.bedpostX
+    type: DIR
+    resource: BEDPOSTX_DATA.bedpostX
+  - path: bedpostx.m
+    type: FILE
+    resource: MATLAB
+  - path: PDF/bedpostx.pdf
     type: FILE
     resource: PDF
-  - path: stats.txt
-    type: FILE
-    resource: STATS
 command: >-
   echo -e \"bedpostx_name = bedpostx\nbedpostx_params =\n\" > $INDIR/bedpostx.conf &&  
   singularity run -e
