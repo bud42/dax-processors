@@ -35,9 +35,6 @@ outputs:
   - path: BEDPOSTX_DATA.bedpostX
     type: DIR
     resource: BEDPOSTX_DATA.bedpostX
-  - path: bedpostx.m
-    type: FILE
-    resource: MATLAB
   - path: PDF/bedpostx.pdf
     type: FILE
     resource: PDF
