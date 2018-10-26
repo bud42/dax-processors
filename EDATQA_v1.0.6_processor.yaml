@@ -31,6 +31,7 @@ inputs:
       - varname: scan
         object: scan
         attr: ID
+        ref: scan_fmri
 outputs:
   - path: OUT/stats.txt
     type: FILE
