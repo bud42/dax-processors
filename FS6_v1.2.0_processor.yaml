@@ -8,7 +8,7 @@ inputs:
   xnat:
     scans:
       - name: scan_t1
-        types: T1,MPRAGE
+        types: T1_MPRAGE,T1,MPRAGE
         needs_qc: True
         resources:
           - resource: NIFTI
@@ -17,6 +17,15 @@ inputs:
             fcount: 1
             fdest: T1.nii.gz
             ftype: FILE
+    edits:
+      - fpref: brainmask.edited.mgz
+        varname: brainmask
+      - fpref: control.dat
+        varname: control
+      - fpref: wm.edited.mgz
+        varname: wm
+      - fpref: aseg.edited.mgz
+        varname: aseg
 outputs:
   - path: OUT/stats.txt
     type: FILE
@@ -39,6 +48,10 @@ command: >-
   {container_path}
   --skipfinish
   --t1_nifti /INPUTS/{t1_nifti}
+  --brainmask '{brainmask}'
+  --control '{control}'
+  --wm '{wm}'
+  --aseg '{aseg}'
   -d /OUTPUTS/OUT
   -a {assessor}
   --extraflags '{extraflags}'
