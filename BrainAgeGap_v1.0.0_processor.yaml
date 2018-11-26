@@ -6,8 +6,9 @@ inputs:
     container_source: local
   xnat:
     scans:
-      - scan1:
+      - name: scan_t1
         types: T1,MPRAGE
+        select: from(assr_ma/scan_t1)
         resources:
           - resource: NIFTI
             fmatch: '*'
@@ -15,10 +16,9 @@ inputs:
             fdest: T1.nii.gz
             ftype: FILE
     assessors:
-      - assr1:
+      - name: assr_ma
         scan_nb:
         proctypes: Multi_Atlas_v2
-#        needs_qc: False
         resources:
           - resource: MNI
             fmatch: '*.nii.gz'
