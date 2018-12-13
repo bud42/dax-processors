@@ -1,0 +1,72 @@
+---
+moreauto: true
+inputs:
+  default:
+    container_path: RWML_v1.0.1.simg
+    container_source: shub://bud42/RWML:v1.0.1
+  xnat:
+    assessors:
+      - name: assr_fs
+        proctypes: FS6_v1
+        needs_qc: True
+        resources:
+          - resource: DATA
+            varname: FS_SUBJ_DIR
+            fdest: FS_SUBJ_DIR
+            ftype: DIR
+      - name: assr_lst
+        proctypes: LST_v1
+        needs_qc: True
+        resources:
+          - resource: DATA
+            varname: WML_FILE
+            fmatch: 'b_*_lesion*[!d].nii.gz'
+            fcount: 1
+            fdest: WML.nii.gz
+            ftype: FILE
+outputs:
+  - path: OUT/mri/stats.txt
+    type: FILE
+    resource: STATS
+  - path: OUT/rwml.pdf
+    type: FILE
+    resource: PDF
+  - path: OUT/mri/ROI_wmparc2_lobes.nii.gz
+    type: FILE
+    resource: DATA
+  - path: OUT/mri/ROI_wmparc2_not.nii.gz
+    type: FILE
+    resource: DATA
+  - path: OUT/mri/conform_lesion.nii.gz
+    type: FILE
+    resource: DATA
+  - path: OUT/mri/orig.nii.gz
+    type: FILE
+    resource: DATA
+  - path: OUT/mri/wmparc2.nii.gz
+    type: FILE
+    resource: DATA
+  - path: OUT/SCRIPT
+    type: DIR
+    resource: SCRIPT
+command: >-
+  singularity
+  run
+  --bind $HOME/freesurfer_license.txt:/opt/license.txt
+  --bind $INDIR:/INPUTS
+  --bind $OUTDIR:/OUTPUTS
+  {container_path}
+  --skipfinish
+  -d /OUTPUTS/OUT
+  -a {assessor}
+  --src_path /opt/src/
+  --fs_path /opt/freesurfer
+  --fsl_path /opt/fsl5
+  --fs_subj_dir /INPUTS/{FS_SUBJ_DIR}
+  --wml_file /INPUTS/{WML_FILE}
+attrs:
+  xsitype: proc:genProcData
+  walltime: '00:30:00'
+  memory: 4096
+  ppn: 1
+jobtemplate: singularity_job_template.txt

@@ -5,36 +5,28 @@ inputs:
     container_path: BrainAgeGap_v1.0.0.img
     container_source: local
   xnat:
-    scans:
-      - scan1:
-        types: T1,MPRAGE
-        resources:
-          - resource: NIFTI
-            fmatch: '*'
-            fcount: 1
-            fdest: T1.nii.gz
-            ftype: FILE
     assessors:
-      - assr1:
-        scan_nb:
+      - name: assr_ma
         proctypes: Multi_Atlas_v2
-#        needs_qc: False
         resources:
           - resource: MNI
             fmatch: '*.nii.gz'
             fcount: 1
             fdest: target_processed.nii.gz
             ftype: FILE
+            varname: t1_nifti
           - resource: MNI_SEG
             fmatch: '*.nii.gz'
             fcount: 1
             fdest: target_processed_seg.nii.gz
             ftype: FILE
+            varname: seg_nifti
           - resource: VOL_TXT
             fmatch: '*.txt'
             fcount: 1
             fdest: target_processed_label_volumes.txt
             ftype: FILE
+            varname: labels_txt
     attrs:
       - varname: sex
         object: subject
@@ -73,6 +65,4 @@ attrs:
   walltime: 0:30:00
   memory: 8192
   ppn: 1
-  type: scan
-  scan_nb: scan1
 jobtemplate: singularity_job_template.txt
