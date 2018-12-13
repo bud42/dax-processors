@@ -1,0 +1,92 @@
+---
+moreauto: true
+inputs:
+  default:
+    container_path: TRACULA_v2.1.1.simg
+    container_source: shub://bud42/TRACULA:v2.1.1
+  xnat:
+    scans:
+      - name: scan_dti
+        types: DTI,WIP_HARDI_60_2_5iso,DIF
+        needs_qc: True
+        resources:
+          - resource: NIFTI
+            fmatch: '*'
+            fcount: 1
+            fdest: dti.nii.gz
+            ftype: FILE
+            varname: dti_nifti
+          - resource: BVAL
+            fmatch: '*'
+            fcount: 1
+            fdest: bval.txt
+            ftype: FILE
+            varname: dti_bval
+          - resource: BVEC
+            fmatch: '*'
+            fcount: 1
+            fdest: bvec.txt
+            ftype: FILE
+            varname: dti_bvec
+    assessors:
+      - name: assr_fs
+        proctypes: FS6_v1
+        needs_qc: True
+        resources:
+          - resource: DATA
+            ftype: DIR
+            fdest: FS_SUBJ_DATA
+            varname: fs_dir
+    attrs:
+      - varname: project
+        object: session
+        attr: project
+      - varname: session
+        object: session
+        attr: label
+outputs:
+  - path: 'OUT/TRACULA*report.pdf'
+    type: FILE
+    resource: PDF
+  - path: 'OUT/*stats.txt'
+    type: FILE
+    resource: STATS
+  - path: 'OUT/trac*.sh'
+    type: FILE
+    resource: STATS
+  - path: 'OUT/TRACULA/*/*.zip'
+    type: FILE
+    resource: DATA
+  - path: 'OUT/dmrirc*.txt'
+    type: FILE
+    resource: DATA
+  - path: 'OUT/trac*.sh'
+    type: FILE
+    resource: DATA
+command: >-
+  singularity 
+  run
+  --bind $HOME/freesurfer_license.txt:/opt/license.txt
+  --bind $INDIR:/INPUTS
+  --bind $OUTDIR:/OUTPUTS
+  {container_path}
+  -d /OUTPUTS/OUT
+  -a {assessor}
+  --proj_label {project}
+  --sess_label {session}
+  --fs_path /opt/freesurfer
+  --fsl_path /usr/share/fsl/5.0
+  --fs_data /INPUTS/FS_SUBJ_DATA
+  --fs_label {session}
+  --fs_subj {session}
+  --dti_nifti /INPUTS/dti.nii.gz
+  --bval_txt /INPUTS/bval.txt
+  --bvec_txt /INPUTS/bvec.txt
+  --src_path /opt/src
+  --skipfinish
+attrs:
+  xsitype: proc:genProcData
+  walltime: '72:00:00'
+  memory: 8192
+  ppn: 1
+jobtemplate: singularity_job_template.txt
