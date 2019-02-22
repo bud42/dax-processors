@@ -1,0 +1,66 @@
+---
+moreauto: true
+inputs:
+  default:
+    container_path: BrainAgeGap_v2.0.0.simg
+    container_source: local
+  xnat:
+    assessors:
+      - name: assr_multi_atlas
+        proctypes: Multi_Atlas_v2
+        resources:
+          - resource: MNI
+            fmatch: '*.nii.gz'
+            fcount: 1
+            fdest: target_processed.nii.gz
+            ftype: FILE
+            varname: mni_t1_file
+          - resource: MNI_SEG
+            fmatch: '*.nii.gz'
+            fcount: 1
+            fdest: target_processed_seg.nii.gz
+            ftype: FILE
+            varname: mni_seg_file
+          - resource: VOL_TXT
+            fmatch: '*.txt'
+            fcount: 1
+            fdest: target_processed_label_volumes.txt
+            ftype: FILE
+            varname: vol_file
+    attrs:
+      - varname: sex
+        object: subject
+        attr: gender
+      - varname: age
+        object: subject
+        attr: age
+      - varname: tesla
+        object: session
+        attr: fieldStrength
+outputs:
+  - path: report.pdf
+    type: FILE
+    resource: PDF
+  - path: stats.txt
+    type: FILE
+    resource: STATS
+command: >-
+  singularity 
+  run
+  --bind $INDIR:/INPUTS
+  --bind $OUTDIR:/OUTPUTS
+  {container_path}
+  --work-dir /opt/src
+  --image-dir /INPUTS
+  --features-dir /INPUTS
+  --output-dir /OUTPUTS
+  --field-strength {tesla}
+  --sex {sex}
+  --age {age}
+  --assr  {assessor}
+attrs:
+  xsitype: proc:genProcData
+  walltime: 0:30:00
+  memory: 8192
+  ppn: 1
+jobtemplate: job_template.txt
